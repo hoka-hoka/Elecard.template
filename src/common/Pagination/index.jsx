@@ -1,4 +1,6 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
+
+import './Pagination.scss';
 
 const LEFT_PAGE = 'LEFT';
 const RIGHT_PAGE = 'RIGHT';
@@ -109,46 +111,55 @@ export default class Pagination extends Component {
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
     return (
-      <nav aria-label="Countries Pagination">
-        <ul>
-          {pages.map((page, index) => {
-            if (page == LEFT_PAGE) {
-              return (
-                <li key={index}>
-                  <a
-                    href="#"
-                    aria-label="Previous"
-                    onClick={this.handleMoveLeft}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                    <span className="sr-only">Previous</span>
-                  </a>
-                </li>
-              );
-            }
-            if (page == RIGHT_PAGE) {
-              return (
-                <li key={index}>
-                  <a href="#" aria-label="Next" onClick={this.handleMoveRight}>
-                    <span aria-hidden="true">&raquo;</span>
-                    <span className="sr-only">Next</span>
-                  </a>
-                </li>
-              );
-            }
+      <ul className="pagination" aria-label="Countries Pagination">
+        {pages.map((page, index) => {
+          if (page == LEFT_PAGE) {
             return (
-              <li
-                key={index}
-                className={`page-item${currentPage === page ? ' active' : ''}`}
-              >
-                <a href="#" onClick={this.handleClick(page)}>
-                  {page}
-                </a>
+              <li className="pagination__item" key={index}>
+                <button
+                  className="pagination__btn pagination__btn_painted pagination__btn_turned"
+                  type="button"
+                  aria-label="Previous"
+                  onClick={this.handleMoveLeft}
+                >
+                  <svg width="16" height="16">
+                    <use xlinkHref="#arrow" />
+                  </svg>
+                </button>
               </li>
             );
-          })}
-        </ul>
-      </nav>
+          }
+          if (page == RIGHT_PAGE) {
+            return (
+              <li className="pagination__item" key={index}>
+                <button
+                  className="pagination__btn pagination__btn_painted"
+                  type="button"
+                  aria-label="Next"
+                  onClick={this.handleMoveRight}
+                >
+                  <svg width="16" height="16">
+                    <use xlinkHref="#arrow" />
+                  </svg>
+                </button>
+              </li>
+            );
+          }
+          return (
+            <li key={index} className="pagination__item">
+              <button
+                className={`pagination__btn${
+                  currentPage === page ? ' pagination__btn_active' : ''
+                }`}
+                type="button"
+                onClick={this.handleClick(page)}
+              >
+                {page}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     );
   }
 }

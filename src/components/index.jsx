@@ -3,6 +3,7 @@ import Header from './Header';
 import Preview from './Preview';
 import Footer from './Footer';
 import Preloader from '../common/Preloader';
+import Sprite from '../common/Sprite';
 
 import { viewMode } from '../constants';
 
@@ -48,6 +49,7 @@ class Template extends Component {
             <Header />
             <Preview updateState={(update) => this.updateState(update)} />
             <Footer />
+            <Sprite />
           </div>
         )}
       </>

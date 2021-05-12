@@ -21,6 +21,15 @@ export default class Preview extends Component {
     }
   };
 
+  // onPageChanged = data => {
+  //   const { allCountries } = this.state;
+  //   const { currentPage, totalPages, pageLimit } = data;
+  //   const offset = (currentPage - 1) * pageLimit;
+  //   const currentCountries = allCountries.slice(offset, offset + pageLimit);
+
+  //   this.setState({ currentPage, currentCountries, totalPages });
+  // }
+
   render() {
     return (
       <div className="preview">
