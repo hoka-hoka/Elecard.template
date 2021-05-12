@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import RadioButton from '../../common/RadioButton';
+import Pagination from '../../common/Pagination';
+
 import { preview, lang, langData, viewMode } from '../../constants';
 
 import './Preview.scss';
@@ -40,7 +42,14 @@ export default class Preview extends Component {
               </Fragment>
             ))}
           </div>
-          <div className="preview__cards"></div>
+          <div className="preview__cards">
+            <Pagination
+              totalRecords={100}
+              pageLimit={5}
+              pageNeighbours={1}
+              // onPageChanged={this.onPageChanged}
+            />
+          </div>
         </div>
       </div>
     );
