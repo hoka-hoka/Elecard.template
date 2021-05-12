@@ -4,4 +4,16 @@
     height: 100%;
     padding: 10px 20px;
   }
+
+  &__panel {
+    display: flex;
+  }
+
+  &__panel-item {
+    margin-right: 20px;
+
+    &:last-child {
+      margin: unset;
+    }
+  }
 }
