@@ -38,6 +38,7 @@
     ],
     "react/prop-types": 0,
     "no-return-assign": 0, // выражения в return
-    "no-param-reassign": 0 // использование параметрафункции
+    "no-param-reassign": 0, // использование параметрафункции
+    "react/no-unused-state": 0
   }
 }

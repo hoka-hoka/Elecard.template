@@ -1,24 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import RadioButton from '../../common/RadioButton';
-import { preview, lang, langData } from '../../constants';
+import { preview, lang, langData, viewMode } from '../../constants';
 
 import './Preview.scss';
 
 export default class Preview extends Component {
   constructor(props) {
     super(props);
-    this.state = { view: 0 };
+    this.state = {};
   }
 
   changeView = (item) => {
+    const { updateState } = this.props;
     if (item.name == lang[langData.cards]) {
-      this.setState({ view: 0 });
+      updateState({ update: true }).view = viewMode.cards;
     } else {
-      this.setState({ view: 1 });
+      updateState({ update: true }).view = viewMode.list;
     }
   };
-
-  getData = () => {};
 
   render() {
     return (

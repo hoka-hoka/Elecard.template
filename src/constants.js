@@ -1,6 +1,12 @@
-const lang = ['Карточки', 'Список'];
+const lang = ['Загрузка', 'Карточки', 'Список'];
 
-const langData = { cards: 0, list: 1 };
+const langData = { load: 0, cards: 1, list: 2 };
+
+const viewMode = {
+  load: lang[langData.load],
+  cards: lang[langData.cards],
+  list: lang[langData.list],
+};
 
 const preview = {
   radioBtns: [
@@ -19,4 +25,4 @@ const preview = {
   ],
 };
 
-export { preview, lang, langData };
+export { preview, lang, langData, viewMode };
