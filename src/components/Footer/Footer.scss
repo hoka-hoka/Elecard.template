@@ -1,0 +1,8 @@
+.footer {
+  &__cont {
+    box-sizing: border-box;
+    height: 60px;
+    padding: 10px 20px;
+    border: 2px dashed $lime;
+  }
+}

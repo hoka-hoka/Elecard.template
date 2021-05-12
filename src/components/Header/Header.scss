@@ -1,0 +1,11 @@
+.header {
+  position: sticky;
+  top: 0;
+
+  &__cont {
+    box-sizing: border-box;
+    height: 60px;
+    padding: 10px 20px;
+    border: 2px dashed $blue;
+  }
+}
