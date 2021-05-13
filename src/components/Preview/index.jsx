@@ -21,6 +21,13 @@ export default class Preview extends Component {
     }
   };
 
+  truncCatalog = (catalog, index) => {
+    const { currentPage } = this.props;
+    const offset = (currentPage - 1) * 10;
+    catalog.splice(offset + index, 1);
+    return catalog;
+  };
+
   render() {
     const { currentCards = [], updateCatalog } = this.props;
     return (
@@ -48,7 +55,9 @@ export default class Preview extends Component {
               <Card
                 key={index}
                 image={card.image}
-                onCardClose={() => updateCatalog(index)}
+                onCardClose={() =>
+                  updateCatalog((catalog) => this.truncCatalog(catalog, index))
+                }
               />
             ))}
           </div>

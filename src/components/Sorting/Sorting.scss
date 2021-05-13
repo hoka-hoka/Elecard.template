@@ -1,2 +1,22 @@
 .sorting {
+  flex: 0 0 40%;
+
+  &__title {
+    margin-bottom: 10px;
+    color: $black-75;
+    font-weight: bold;
+  }
+
+  &__cont {
+    height: 100%;
+    padding: 10px 20px;
+  }
+
+  &__item {
+    margin-bottom: 4px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }

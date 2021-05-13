@@ -1,6 +1,13 @@
-const lang = ['Загрузка', 'Карточки', 'Список', 'Все'];
+const lang = [
+  'Загрузка',
+  'Карточки',
+  'Список',
+  'Все',
+  'По категориям',
+  'По дате',
+];
 
-const langData = { load: 0, cards: 1, list: 2, all: 3 };
+const langData = { load: 0, cards: 1, list: 2, all: 3, categories: 4, date: 5 };
 
 const viewMode = {
   load: lang[langData.load],
@@ -19,6 +26,7 @@ const sroting = {
     'vehicle',
     'winter',
   ],
+  date: [''],
 };
 
 const preview = {

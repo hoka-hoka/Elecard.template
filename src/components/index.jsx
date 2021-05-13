@@ -40,10 +40,10 @@ class Template extends Component {
     this.setState({ currentPage, currentCards, totalPages, rebuild: false });
   };
 
-  updateCatalog = (index) => {
-    const { currentPage } = this.state;
-    const offset = (currentPage - 1) * 10;
-    this.catalog.splice(offset + index, 1);
+  updateCatalog = (handler) => {
+    if (handler && this.catalog) {
+      this.catalog = handler(this.catalog);
+    }
     this.setState({ rebuild: true });
   };
 
@@ -68,10 +68,13 @@ class Template extends Component {
               <Preview
                 currentPage={currentPage}
                 currentCards={currentCards}
-                updateCatalog={(index) => this.updateCatalog(index)}
+                updateCatalog={(handler) => this.updateCatalog(handler)}
                 updateState={(update) => this.updateState(update)}
               />
-              <Sorting />
+              <Sorting
+                updateCatalog={(handler) => this.updateCatalog(handler)}
+                updateState={(update) => this.updateState(update)}
+              />
             </div>
             <div className="home__pagination">
               <Pagination
