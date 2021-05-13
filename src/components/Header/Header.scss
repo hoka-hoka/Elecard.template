@@ -1,9 +1,10 @@
 .header {
   position: sticky;
   top: 0;
+  z-index: 1;
+  background: aliceblue;
 
   &__cont {
-    box-sizing: border-box;
     height: 60px;
     padding: 10px 20px;
     border: 2px dashed $blue;

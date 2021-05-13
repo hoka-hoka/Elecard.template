@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, createRef, Fragment } from 'react';
+import Card from '../Card';
 import RadioButton from '../../common/RadioButton';
 import Pagination from '../../common/Pagination';
 
@@ -9,7 +10,7 @@ import './Preview.scss';
 export default class Preview extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { catalog: props.catalog, rebuild: false };
   }
 
   changeView = (item) => {
@@ -21,16 +22,21 @@ export default class Preview extends Component {
     }
   };
 
-  // onPageChanged = data => {
-  //   const { allCountries } = this.state;
-  //   const { currentPage, totalPages, pageLimit } = data;
-  //   const offset = (currentPage - 1) * pageLimit;
-  //   const currentCountries = allCountries.slice(offset, offset + pageLimit);
+  onPageChanged = (data) => {
+    const { catalog } = this.state;
+    const { currentPage, totalPages, pageLimit } = data;
+    const offset = (currentPage - 1) * pageLimit;
+    const currentCards = catalog.slice(offset, offset + pageLimit);
+    this.setState({ currentPage, currentCards, totalPages, rebuild: false });
+  };
 
-  //   this.setState({ currentPage, currentCountries, totalPages });
-  // }
+  onCardClose = (index) => {
+    this.state.catalog.splice(index, 1);
+    this.setState({ rebuild: true });
+  };
 
   render() {
+    const { currentCards = [], catalog, rebuild } = this.state;
     return (
       <div className="preview">
         <div className="preview__cont">
@@ -52,11 +58,21 @@ export default class Preview extends Component {
             ))}
           </div>
           <div className="preview__cards">
+            {currentCards.map((card, index) => (
+              <Card
+                key={index}
+                image={card.image}
+                onCardClose={() => this.onCardClose(index)}
+              />
+            ))}
+          </div>
+          <div className="preview__pagination">
             <Pagination
-              totalRecords={100}
-              pageLimit={5}
-              pageNeighbours={1}
-              // onPageChanged={this.onPageChanged}
+              totalRecords={catalog.length}
+              pageLimit={10}
+              pageNeighbours={2}
+              rebuild={rebuild}
+              onPageChanged={this.onPageChanged}
             />
           </div>
         </div>

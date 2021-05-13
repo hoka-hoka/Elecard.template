@@ -1,12 +1,13 @@
 .preview {
   &__cont {
-    box-sizing: border-box;
     height: 100%;
     padding: 10px 20px;
+    background-color: $black-5;
   }
 
   &__panel {
     display: flex;
+    margin-bottom: 10px;
   }
 
   &__panel-item {
@@ -15,5 +16,15 @@
     &:last-child {
       margin: unset;
     }
+  }
+
+  &__cards {
+    display: grid;
+    grid-gap: 10px 30px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  &__pagination {
+    margin-top: 20px;
   }
 }

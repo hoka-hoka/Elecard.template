@@ -9,7 +9,6 @@
     @each $name in ('after', 'before') {
       &:#{$name} {
         display: inline-block;
-        box-sizing: border-box;
         border-radius: 50%;
         content: '';
 

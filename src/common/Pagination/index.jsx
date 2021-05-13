@@ -13,15 +13,25 @@ export default class Pagination extends Component {
     this.totalRecords = totalRecords;
     this.pageLimit = pageLimit;
     this.pageNeighbours = pageNeighbours;
+    this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
   }
 
   componentDidMount() {
     this.gotoPage(1);
   }
 
+  componentDidUpdate() {
+    const { currentPage } = this.state;
+    const { rebuild, totalRecords } = this.props;
+    this.totalPages = Math.ceil(totalRecords / this.pageLimit);
+    if (rebuild) {
+      this.gotoPage(currentPage);
+    }
+  }
+
   gotoPage = (page) => {
     const { onPageChanged = (f) => f } = this.props;
-    const currentPage = Math.max(0, Math.min(page, this.totalPages));
+    const currentPage = page;
     const paginationData = {
       currentPage,
       totalPages: this.totalPages,
@@ -109,10 +119,9 @@ export default class Pagination extends Component {
   render() {
     if (!this.totalRecords || this.totalPages === 1) return null;
     const { currentPage } = this.state;
-    const pages = this.fetchPageNumbers();
     return (
       <ul className="pagination" aria-label="Countries Pagination">
-        {pages.map((page, index) => {
+        {this.fetchPageNumbers().map((page, index) => {
           if (page == LEFT_PAGE) {
             return (
               <li className="pagination__item" key={index}>

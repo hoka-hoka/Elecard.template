@@ -17,9 +17,8 @@ class Template extends Component {
   }
 
   componentDidMount = async () => {
-    const resp = await this.getData('/frontend_data/catalog.json');
+    this.catalog = await this.getData('/frontend_data/catalog.json');
     this.setState({ view: viewMode.cards });
-    return resp || [];
   };
 
   getData = async (method, data) => {
@@ -39,7 +38,8 @@ class Template extends Component {
   }
 
   render() {
-    const { view } = this.state;
+    const { view, error } = this.state;
+    if (error) return false;
     return (
       <>
         {view == viewMode.load ? (
@@ -47,7 +47,10 @@ class Template extends Component {
         ) : (
           <div className="home">
             <Header />
-            <Preview updateState={(update) => this.updateState(update)} />
+            <Preview
+              updateState={(update) => this.updateState(update)}
+              catalog={this.catalog}
+            />
             <Footer />
             <Sprite />
           </div>
