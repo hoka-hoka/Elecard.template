@@ -2,4 +2,12 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &__pagination {
+    margin-top: 20px;
+  }
 }

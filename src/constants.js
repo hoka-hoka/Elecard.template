@@ -1,11 +1,24 @@
-const lang = ['Загрузка', 'Карточки', 'Список'];
+const lang = ['Загрузка', 'Карточки', 'Список', 'Все'];
 
-const langData = { load: 0, cards: 1, list: 2 };
+const langData = { load: 0, cards: 1, list: 2, all: 3 };
 
 const viewMode = {
   load: lang[langData.load],
   cards: lang[langData.cards],
   list: lang[langData.list],
+};
+
+const sroting = {
+  categories: [
+    'animals',
+    'business',
+    'food',
+    'health',
+    'places',
+    'science',
+    'vehicle',
+    'winter',
+  ],
 };
 
 const preview = {
@@ -25,4 +38,4 @@ const preview = {
   ],
 };
 
-export { preview, lang, langData, viewMode };
+export { preview, sroting, lang, langData, viewMode };
