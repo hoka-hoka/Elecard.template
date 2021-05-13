@@ -31,7 +31,9 @@ export default class Preview extends Component {
   };
 
   onCardClose = (index) => {
-    this.state.catalog.splice(index, 1);
+    const { currentPage } = this.state;
+    const offset = (currentPage - 1) * 10;
+    this.state.catalog.splice(offset + index, 1);
     this.setState({ rebuild: true });
   };
 
