@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { lang, langData } from '../../constants';
+import { preview, lang, langData, dataURL } from '../../constants';
 import { CheckboxTree } from '../CheckboxTree';
+import { Thumbnail } from '../Thumbnail';
 
 import './ThreeList.scss';
 
@@ -18,19 +19,16 @@ export default class ThreeList extends Component {
     const { listMap } = this.props;
     let depth = -1;
     const listFormatting = (elem) => {
-      console.log(depth);
       depth += 1;
       return elem.map((item, index) => {
         if (Array.isArray(item)) {
           return {
             childrens: listFormatting(item),
-            active: false,
             id: `${depth}|0`,
           };
         }
         return {
           name: item?.imgname ?? '',
-          active: false,
           data: item,
           id: `${depth}|${index + 1}`,
         };
@@ -51,16 +49,44 @@ export default class ThreeList extends Component {
   createTree = () => {
     const { listMap = [] } = this.state;
 
+    const prepareInfo = (branch, info) => {
+      const d = branch.data[info.type];
+      if (info.name == lang[langData.timestamp]) {
+        return `${d.hour}:${d.minutes}:${d.seconds} ${d.year}`;
+      }
+      if (info.name == lang[langData.image]) {
+        return (
+          <Thumbnail url={`${dataURL}${d}`} idFor={`thumb-${branch.id}`} />
+        );
+      }
+      return d;
+    };
+
+    const addInfo = (item) => {
+      return (
+        <div className="checkbox-tree__info">
+          {preview.treeInfo.map((info) => (
+            <Fragment key={info.name}>
+              <div className={`checkbox-tree__title`}>{info.name}</div>
+              <div className={`checkbox-tree__${info.type}`}>
+                {prepareInfo(item, info)}
+              </div>
+            </Fragment>
+          ))}
+        </div>
+      );
+    };
+
     const addBranch = (listMap) => {
       return listMap.map((item, index) => {
         return (
           <li className="three-list__item" key={index}>
             <CheckboxTree
               text={item?.data ? item.data.imgname : lang[langData.section]}
-              idFor={`${item.id}`}
+              idFor={`tree-${item.id}`}
               render={() => (
                 <ul className="checkbox-tree__childs">
-                  {item?.childrens && addBranch(item.childrens)}
+                  {item?.childrens ? addBranch(item.childrens) : addInfo(item)}
                 </ul>
               )}
             />

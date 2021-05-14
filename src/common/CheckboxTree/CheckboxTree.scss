@@ -60,7 +60,13 @@
 
   &__childs {
     display: none;
-    margin-top: 10px;
+    margin: 14px 0 10px;
     padding-left: 25px;
+  }
+
+  &__info {
+    display: grid;
+    grid-gap: 5px 20px;
+    grid-template-columns: max-content max-content;
   }
 }

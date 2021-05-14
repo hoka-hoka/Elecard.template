@@ -10,6 +10,10 @@ const lang = [
   'Восстановить',
   'Карточка',
   'Раздел',
+  'Категория',
+  'Размер',
+  'Фотография',
+  'Дата',
 ];
 
 const langData = {
@@ -17,14 +21,20 @@ const langData = {
   cards: 1,
   list: 2,
   all: 3,
-  category: 4,
-  timestamp: 5,
-  imgname: 6,
-  filesize: 7,
+  bycategory: 4,
+  bytimestamp: 5,
+  byimgname: 6,
+  byfilesize: 7,
   recover: 8,
   card: 9,
   section: 10,
+  category: 11,
+  filesize: 12,
+  image: 13,
+  timestamp: 14,
 };
+
+const dataURL = 'http://contest.elecard.ru/frontend_data/';
 
 const viewMode = {
   load: 'load',
@@ -36,7 +46,7 @@ const sorting = [
   // {
   //   id: 1,
   //   type: 'category',
-  //   alias: lang[langData.category],
+  //   alias: lang[langData.bycategory],
   //   names: [
   //     'animals',
   //     'business',
@@ -51,13 +61,13 @@ const sorting = [
   {
     id: 2,
     type: 'timestamp',
-    alias: lang[langData.timestamp],
+    alias: lang[langData.bytimestamp],
     names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
   },
   // {
   //   id: 3,
   //   type: 'imgname',
-  //   alias: lang[langData.imgname],
+  //   alias: lang[langData.byimgname],
   //   names: ['increase', 'decrease'],
   // },
   // {
@@ -82,6 +92,24 @@ const preview = {
       active: false,
     },
   ],
+  treeInfo: [
+    {
+      type: 'category',
+      name: lang[langData.category],
+    },
+    {
+      type: 'filesize',
+      name: lang[langData.filesize],
+    },
+    {
+      type: 'image',
+      name: lang[langData.image],
+    },
+    {
+      type: 'timestamp',
+      name: lang[langData.timestamp],
+    },
+  ],
 };
 
-export { preview, sorting, lang, langData, viewMode };
+export { preview, sorting, lang, langData, viewMode, dataURL };

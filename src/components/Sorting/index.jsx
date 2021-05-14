@@ -81,8 +81,8 @@ export default class Sorting extends Component {
     };
 
     const isParameters = [
-      lang[langData.category],
-      lang[langData.timestamp],
+      lang[langData.bycategory],
+      lang[langData.bytimestamp],
     ].includes(cell.alias);
     if (isParameters) {
       return sortingByParam();
