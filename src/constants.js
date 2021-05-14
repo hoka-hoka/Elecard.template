@@ -9,6 +9,7 @@ const lang = [
   'По размеру',
   'Восстановить',
   'Карточка',
+  'Раздел',
 ];
 
 const langData = {
@@ -22,6 +23,7 @@ const langData = {
   filesize: 7,
   recover: 8,
   card: 9,
+  section: 10,
 };
 
 const viewMode = {

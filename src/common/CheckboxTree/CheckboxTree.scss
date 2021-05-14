@@ -1,5 +1,6 @@
 .checkbox-tree {
   position: relative;
+  padding: 2px 0;
 
   @each $name in (after, before) {
     &__lab > span::#{$name} {
@@ -34,6 +35,10 @@
       content: '\e801';
     }
 
+    &:checked ~ .checkbox-tree__childs {
+      display: block;
+    }
+
     &_hidden {
       position: absolute;
       width: 1px;
@@ -51,5 +56,11 @@
     color: $black-75;
     cursor: pointer;
     user-select: none;
+  }
+
+  &__childs {
+    display: none;
+    margin-top: 10px;
+    padding-left: 25px;
   }
 }
