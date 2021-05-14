@@ -5,9 +5,20 @@ const lang = [
   'Все',
   'По категориям',
   'По дате',
+  'По имени',
+  'По размеру',
 ];
 
-const langData = { load: 0, cards: 1, list: 2, all: 3, categories: 4, date: 5 };
+const langData = {
+  load: 0,
+  cards: 1,
+  list: 2,
+  all: 3,
+  category: 4,
+  timestamp: 5,
+  imgname: 6,
+  filesize: 7,
+};
 
 const viewMode = {
   load: lang[langData.load],
@@ -15,19 +26,40 @@ const viewMode = {
   list: lang[langData.list],
 };
 
-const sroting = {
-  categories: [
-    'animals',
-    'business',
-    'food',
-    'health',
-    'places',
-    'science',
-    'vehicle',
-    'winter',
-  ],
-  date: [''],
-};
+const sorting = [
+  // {
+  //   id: 1,
+  //   type: 'category',
+  //   alias: lang[langData.category],
+  //   names: [
+  //     'animals',
+  //     'business',
+  //     'food',
+  //     'health',
+  //     'places',
+  //     'science',
+  //     'vehicle',
+  //     'winter',
+  //   ],
+  // },
+  {
+    id: 2,
+    type: 'timestamp',
+    alias: lang[langData.timestamp],
+    names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
+  },
+  {
+    id: 3,
+    type: 'imgname',
+    alias: lang[langData.imgname],
+    names: ['increase', 'decrease'],
+  },
+  // {
+  //   id: 4,
+  //   type: 'filesize',
+  //   names: ['increase', 'decrease'],
+  // },
+];
 
 const preview = {
   radioBtns: [
@@ -46,4 +78,4 @@ const preview = {
   ],
 };
 
-export { preview, sroting, lang, langData, viewMode };
+export { preview, sorting, lang, langData, viewMode };

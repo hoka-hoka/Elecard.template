@@ -18,8 +18,43 @@ class Template extends Component {
     this.state = { view: viewMode.load, rebuild: false };
   }
 
+  prepareDate = () => {
+    this.catalog = this.catalog.map((item) => {
+      if (item?.timestamp) {
+        item.timestamp = this.convertTimestamp(item.timestamp);
+      }
+      return item;
+    });
+  };
+
+  prepareImgName = () => {
+    this.catalog = this.catalog.map((item) => {
+      if (item?.image) {
+        // TODO: может быть ошибка в Safari по ретроспективной проверке в регулярном выражении
+        const foundName = item.image.match(/(?<=\/).+(?=\.(png|jpg))/g);
+        if (foundName?.length) {
+          item.imgname = foundName[0];
+        }
+      }
+      return item;
+    });
+  };
+
+  convertTimestamp = (time) => {
+    const date = new Date(time);
+    const rezult = {
+      year: date.getFullYear(),
+      hour: date.getHours(),
+      minutes: `0${date.getMinutes()}`.substr(-2),
+      seconds: `0${date.getSeconds()}`.substr(-2),
+    };
+    return rezult;
+  };
+
   componentDidMount = async () => {
     this.catalog = await this.getData('/frontend_data/catalog.json');
+    this.prepareDate();
+    this.prepareImgName();
     this.setState({ view: viewMode.cards });
   };
 
@@ -65,13 +100,13 @@ class Template extends Component {
           <div className="home">
             <Header />
             <div className="home__wrapper">
-              <Preview
-                currentPage={currentPage}
-                currentCards={currentCards}
+              <Sorting
                 updateCatalog={(handler) => this.updateCatalog(handler)}
                 updateState={(update) => this.updateState(update)}
               />
-              <Sorting
+              <Preview
+                currentPage={currentPage}
+                currentCards={currentCards}
                 updateCatalog={(handler) => this.updateCatalog(handler)}
                 updateState={(update) => this.updateState(update)}
               />
