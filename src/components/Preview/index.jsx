@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Card from '../Card';
 import RadioButton from '../../common/RadioButton';
+import ThreeList from '../../common/ThreeList';
 
 import { preview, lang, langData, viewMode } from '../../constants';
 
@@ -9,7 +10,7 @@ import './Preview.scss';
 export default class Preview extends Component {
   constructor(props) {
     super(props);
-    this.state = { catalog: props.catalog };
+    this.state = { catalog: props.catalog, view: viewMode.cards };
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -57,16 +58,16 @@ export default class Preview extends Component {
   };
 
   changeView = (item) => {
-    const { updateState } = this.props;
     if (item.name == lang[langData.cards]) {
-      updateState({ update: true }).view = viewMode.cards;
+      this.setState({ view: viewMode.cards });
     } else {
-      updateState({ update: true }).view = viewMode.list;
+      this.setState({ view: viewMode.list });
     }
   };
 
   render() {
-    const { currentCards = [], updateCatalog } = this.props;
+    const { view } = this.state;
+    const { currentCards = [] } = this.props;
     return (
       <div className="preview">
         <div className="preview__cont">
@@ -87,7 +88,12 @@ export default class Preview extends Component {
               </Fragment>
             ))}
           </div>
-          <div className="preview__cards">
+
+          <div
+            className={`preview__cards${
+              view != viewMode.cards ? ' preview__cards_hidden' : ''
+            }`}
+          >
             {currentCards.map((card, index) => (
               <Card
                 key={index}
@@ -95,6 +101,14 @@ export default class Preview extends Component {
                 onCardClose={(card) => this.plaingAnimation(card, index)}
               />
             ))}
+          </div>
+
+          <div
+            className={`preview__list${
+              view != viewMode.list ? ' preview__list_hidden' : ''
+            }`}
+          >
+            <ThreeList listMap={currentCards} />
           </div>
         </div>
       </div>

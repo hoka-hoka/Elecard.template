@@ -1,0 +1,21 @@
+@import './normalize.scss';
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 20px;
+  color: #fff;
+  font-weight: bold;
+  font-family: $mainFont;
+  border-radius: 22px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &_dark {
+    background: linear-gradient(180deg, $purple, $violet);
+  }
+}

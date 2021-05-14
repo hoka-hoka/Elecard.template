@@ -25,9 +25,9 @@ const langData = {
 };
 
 const viewMode = {
-  load: lang[langData.load],
-  cards: lang[langData.cards],
-  list: lang[langData.list],
+  load: 'load',
+  cards: 'cards',
+  list: 'list',
 };
 
 const sorting = [
@@ -52,12 +52,12 @@ const sorting = [
     alias: lang[langData.timestamp],
     names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
   },
-  {
-    id: 3,
-    type: 'imgname',
-    alias: lang[langData.imgname],
-    names: ['increase', 'decrease'],
-  },
+  // {
+  //   id: 3,
+  //   type: 'imgname',
+  //   alias: lang[langData.imgname],
+  //   names: ['increase', 'decrease'],
+  // },
   // {
   //   id: 4,
   //   type: 'filesize',

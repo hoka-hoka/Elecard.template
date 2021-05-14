@@ -37,7 +37,7 @@ export default class Notice extends Component {
               <div className="notice__text">{popupText}</div>
               {btn && (
                 <button
-                  className="notice__btn"
+                  className="btn btn_dark"
                   type="button"
                   onClick={this.restoreDelFile}
                 >

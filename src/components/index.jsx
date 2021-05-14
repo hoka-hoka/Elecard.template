@@ -8,22 +8,31 @@ import Pagination from '../common/Pagination';
 import Preloader from '../common/Preloader';
 import Sprite from '../common/Sprite';
 
-import { viewMode } from '../constants';
+import '../scss/main.scss';
+import './Home.scss';
 
-import '../scss/normalize.scss';
-import './main.scss';
-
-class Template extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { view: viewMode.load, rebuild: false, del: {}, notice: {} };
+    this.state = {
+      loading: true,
+      rebuild: false,
+      del: {},
+      notice: {},
+      pagination: {
+        limit: 10,
+        neighbours: 2,
+        current: 1,
+      },
+    };
   }
 
   componentDidMount = async () => {
     this.catalog = await this.getData('/frontend_data/catalog.json');
     this.prepareDate();
     this.prepareImgName();
-    this.setState({ view: viewMode.cards });
+    this.computeCountCards();
+    this.setState({ loading: false });
   };
 
   prepareDate = () => {
@@ -68,12 +77,23 @@ class Template extends Component {
     return resp.json();
   };
 
+  computeCountCards = (current) => {
+    const { pagination } = this.state;
+    const currentPage = current ?? pagination.current;
+    const offset = (currentPage - 1) * pagination.limit;
+    const currentCards = this.catalog.slice(offset, offset + pagination.limit);
+    this.setState({
+      pagination: { ...pagination, currentCards, current: currentPage },
+    });
+  };
+
   onPageChanged = (data) => {
-    const { catalog } = this;
-    const { currentPage, totalPages, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    const currentCards = catalog.slice(offset, offset + pageLimit);
-    this.setState({ currentPage, currentCards, totalPages, rebuild: false });
+    const { pagination, rebuild } = this.state;
+    const { currentPage: current, totalPages: total } = data;
+    if (rebuild || pagination.current != current) {
+      this.computeCountCards(current);
+    }
+    this.setState({ rebuild: false });
   };
 
   updateCatalog = (handler) => {
@@ -91,19 +111,11 @@ class Template extends Component {
   }
 
   render() {
-    const {
-      view,
-      error,
-      rebuild,
-      currentPage,
-      currentCards,
-      notice,
-      del,
-    } = this.state;
+    const { loading, error, rebuild, pagination, notice, del } = this.state;
     if (error) return false;
     return (
       <>
-        {view == viewMode.load ? (
+        {loading ? (
           <Preloader />
         ) : (
           <div className="home">
@@ -116,8 +128,8 @@ class Template extends Component {
               <Preview
                 notice={notice}
                 del={del}
-                currentPage={currentPage}
-                currentCards={currentCards}
+                currentPage={pagination.current}
+                currentCards={pagination.currentCards}
                 updateCatalog={(handler) => this.updateCatalog(handler)}
                 updateState={(update) => this.updateState(update)}
               />
@@ -125,8 +137,8 @@ class Template extends Component {
             <div className="home__pagination">
               <Pagination
                 totalRecords={this.catalog.length}
-                pageLimit={10}
-                pageNeighbours={2}
+                pageLimit={pagination.limit}
+                pageNeighbours={pagination.neighbours}
                 rebuild={rebuild}
                 onPageChanged={this.onPageChanged}
               />
@@ -143,5 +155,3 @@ class Template extends Component {
     );
   }
 }
-
-export default Template;

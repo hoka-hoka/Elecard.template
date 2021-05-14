@@ -90,6 +90,8 @@ export default class Sorting extends Component {
     return sortingWithoutParam();
   };
 
+  recoverSort = () => {};
+
   render() {
     const { updateCatalog } = this.props;
     return (
@@ -98,13 +100,13 @@ export default class Sorting extends Component {
           {sorting.map((cell) => (
             <div className={`sorting__${cell.type}`} key={cell.id}>
               <div className="sorting__title">{lang[langData[cell.type]]}</div>
-              {cell.names.map((name, optIndex) => (
+              {cell.names.map((opt, optIndex) => (
                 <div className="sorting__item" key={optIndex}>
                   <RadioButton
                     idFor={`${cell.type}-${optIndex}`}
                     btnName={cell.type}
-                    btnText={name}
-                    active={!optIndex}
+                    btnText={opt}
+                    active={optIndex == 1}
                     callback={() =>
                       updateCatalog((catalog) =>
                         this.sortByCategory(catalog, cell, optIndex),
@@ -115,6 +117,15 @@ export default class Sorting extends Component {
               ))}
             </div>
           ))}
+          <div className="sorting__recover">
+            <button
+              className="btn btn_dark"
+              type="button"
+              onClick={this.recoverSort}
+            >
+              {lang[langData.recover]}
+            </button>
+          </div>
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Template from './components';
+import Home from './components';
 
-ReactDOM.render(<Template />, document.querySelector('#root'));
+ReactDOM.render(<Home />, document.querySelector('#root'));
