@@ -12,6 +12,16 @@ export default class Preview extends Component {
     this.state = { catalog: props.catalog };
   }
 
+  componentDidUpdate = (prevProps) => {
+    const { notice, del, updateCatalog } = this.props;
+    if (notice?.restore && prevProps.notice?.restore != notice?.restore) {
+      updateCatalog((catalog) => {
+        catalog.splice(del.index, 0, del.elem);
+        return catalog;
+      });
+    }
+  };
+
   changeView = (item) => {
     const { updateState } = this.props;
     if (item.name == lang[langData.cards]) {
@@ -22,9 +32,13 @@ export default class Preview extends Component {
   };
 
   truncCatalog = (catalog, index) => {
-    const { currentPage } = this.props;
+    const { currentPage, updateState } = this.props;
     const offset = (currentPage - 1) * 10;
-    catalog.splice(offset + index, 1);
+    const del = catalog.splice(offset + index, 1)[0];
+    updateState({}).del = { index: offset + index, elem: del };
+    updateState({}).notice = {
+      popupText: `${lang[langData.card]} ${del.imgname} была удалена`,
+    };
     return catalog;
   };
 

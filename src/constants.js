@@ -7,6 +7,8 @@ const lang = [
   'По дате',
   'По имени',
   'По размеру',
+  'Восстановить',
+  'Карточка',
 ];
 
 const langData = {
@@ -18,6 +20,8 @@ const langData = {
   timestamp: 5,
   imgname: 6,
   filesize: 7,
+  recover: 8,
+  card: 9,
 };
 
 const viewMode = {

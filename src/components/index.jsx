@@ -3,6 +3,7 @@ import Header from './Header';
 import Preview from './Preview';
 import Footer from './Footer';
 import Sorting from './Sorting';
+import Notice from './Notice';
 import Pagination from '../common/Pagination';
 import Preloader from '../common/Preloader';
 import Sprite from '../common/Sprite';
@@ -15,8 +16,15 @@ import './main.scss';
 class Template extends Component {
   constructor(props) {
     super(props);
-    this.state = { view: viewMode.load, rebuild: false };
+    this.state = { view: viewMode.load, rebuild: false, del: {}, notice: {} };
   }
+
+  componentDidMount = async () => {
+    this.catalog = await this.getData('/frontend_data/catalog.json');
+    this.prepareDate();
+    this.prepareImgName();
+    this.setState({ view: viewMode.cards });
+  };
 
   prepareDate = () => {
     this.catalog = this.catalog.map((item) => {
@@ -51,13 +59,6 @@ class Template extends Component {
     return rezult;
   };
 
-  componentDidMount = async () => {
-    this.catalog = await this.getData('/frontend_data/catalog.json');
-    this.prepareDate();
-    this.prepareImgName();
-    this.setState({ view: viewMode.cards });
-  };
-
   getData = async (method, data) => {
     const resp = await fetch(`http://contest.elecard.ru${method}`);
     if (!resp?.ok) {
@@ -82,7 +83,7 @@ class Template extends Component {
     this.setState({ rebuild: true });
   };
 
-  updateState({ update = false }) {
+  updateState({ update = false } = {}) {
     if (update) {
       this.forceUpdate();
     }
@@ -90,7 +91,15 @@ class Template extends Component {
   }
 
   render() {
-    const { view, error, rebuild, currentPage, currentCards } = this.state;
+    const {
+      view,
+      error,
+      rebuild,
+      currentPage,
+      currentCards,
+      notice,
+      del,
+    } = this.state;
     if (error) return false;
     return (
       <>
@@ -105,6 +114,8 @@ class Template extends Component {
                 updateState={(update) => this.updateState(update)}
               />
               <Preview
+                notice={notice}
+                del={del}
                 currentPage={currentPage}
                 currentCards={currentCards}
                 updateCatalog={(handler) => this.updateCatalog(handler)}
@@ -121,6 +132,10 @@ class Template extends Component {
               />
             </div>
             <Footer />
+            <Notice
+              popupText={notice?.popupText}
+              updateState={(update) => this.updateState(update)}
+            />
             <Sprite />
           </div>
         )}
