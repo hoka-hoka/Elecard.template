@@ -31,14 +31,17 @@ export default class Preview extends Component {
     }
   };
 
-  truncCatalog = (catalog, index) => {
+  truncCatalog = (card, catalog, index) => {
+    const $target = $(card);
     const { currentPage, updateState } = this.props;
     const offset = (currentPage - 1) * 10;
-    const del = catalog.splice(offset + index, 1)[0];
-    updateState({}).del = { index: offset + index, elem: del };
-    updateState({}).notice = {
-      popupText: `${lang[langData.card]} ${del.imgname} была удалена`,
-    };
+    $target.fadeOut(() => {
+      const del = catalog.splice(offset + index, 1)[0];
+      updateState({}).del = { index: offset + index, elem: del };
+      updateState({}).notice = {
+        popupText: `${lang[langData.card]} ${del.imgname} была удалена`,
+      };
+    });
     return catalog;
   };
 
@@ -69,8 +72,10 @@ export default class Preview extends Component {
               <Card
                 key={index}
                 image={card.image}
-                onCardClose={() =>
-                  updateCatalog((catalog) => this.truncCatalog(catalog, index))
+                onCardClose={(card) =>
+                  updateCatalog((catalog) =>
+                    this.truncCatalog(card, catalog, index),
+                  )
                 }
               />
             ))}
