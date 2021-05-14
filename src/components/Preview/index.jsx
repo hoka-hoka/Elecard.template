@@ -12,7 +12,41 @@ export default class Preview extends Component {
     this.state = { catalog: props.catalog };
   }
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps, prevState) => {
+    this.recoverDelCard(prevProps);
+    this.rebuildAfterAnimation(prevState);
+  };
+
+  rebuildAfterAnimation = (prevState) => {
+    const { animateStat } = this.state;
+    const { updateCatalog } = this.props;
+    if (animateStat && prevState?.animateStat != animateStat) {
+      updateCatalog((catalog) => this.truncCatalog(catalog));
+    }
+  };
+
+  plaingAnimation = (card, index) => {
+    const $target = $(card);
+    this.setState({ animateStat: 0 });
+    $target.fadeOut(200, () => {
+      this.setState({ animateStat: 1, delIndex: index });
+    });
+    $target.fadeIn(200);
+  };
+
+  truncCatalog = (catalog) => {
+    const { delIndex } = this.state;
+    const { currentPage, updateState } = this.props;
+    const offset = (currentPage - 1) * 10;
+    const del = catalog.splice(offset + delIndex, 1)[0];
+    updateState({}).del = { index: offset + delIndex, elem: del };
+    updateState({}).notice = {
+      popupText: `${lang[langData.card]} ${del.imgname} была удалена`,
+    };
+    return catalog;
+  };
+
+  recoverDelCard = (prevProps) => {
     const { notice, del, updateCatalog } = this.props;
     if (notice?.restore && prevProps.notice?.restore != notice?.restore) {
       updateCatalog((catalog) => {
@@ -29,20 +63,6 @@ export default class Preview extends Component {
     } else {
       updateState({ update: true }).view = viewMode.list;
     }
-  };
-
-  truncCatalog = (card, catalog, index) => {
-    const $target = $(card);
-    const { currentPage, updateState } = this.props;
-    const offset = (currentPage - 1) * 10;
-    $target.fadeOut(() => {
-      const del = catalog.splice(offset + index, 1)[0];
-      updateState({}).del = { index: offset + index, elem: del };
-      updateState({}).notice = {
-        popupText: `${lang[langData.card]} ${del.imgname} была удалена`,
-      };
-    });
-    return catalog;
   };
 
   render() {
@@ -72,11 +92,7 @@ export default class Preview extends Component {
               <Card
                 key={index}
                 image={card.image}
-                onCardClose={(card) =>
-                  updateCatalog((catalog) =>
-                    this.truncCatalog(card, catalog, index),
-                  )
-                }
+                onCardClose={(card) => this.plaingAnimation(card, index)}
               />
             ))}
           </div>
