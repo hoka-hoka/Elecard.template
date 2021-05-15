@@ -85,30 +85,30 @@ const sorting = [
       '2019',
     ],
   },
-  // {
-  //   id: 3,
-  //   active: 0,
-  //   type: 'imgname',
-  //   alias: lang[langData.byimgname],
-  //   names: [
-  //     lang[langData.notset],
-  //     lang[langData.byincrease],
-  //     lang[langData.bydecrease],
-  //   ],
-  //   toggle: true,
-  // },
-  // {
-  //   id: 4,
-  //   active: 0,
-  //   type: 'filesize',
-  //   alias: lang[langData.byfilesize],
-  //   names: [
-  //     lang[langData.notset],
-  //     lang[langData.byincrease],
-  //     lang[langData.bydecrease],
-  //   ],
-  //   toggle: true,
-  // },
+  {
+    id: 3,
+    active: 0,
+    type: 'imgname',
+    alias: lang[langData.byimgname],
+    names: [
+      lang[langData.notset],
+      lang[langData.byincrease],
+      lang[langData.bydecrease],
+    ],
+    toggle: true,
+  },
+  {
+    id: 4,
+    active: 0,
+    type: 'filesize',
+    alias: lang[langData.byfilesize],
+    names: [
+      lang[langData.notset],
+      lang[langData.byincrease],
+      lang[langData.bydecrease],
+    ],
+    toggle: true,
+  },
 ];
 
 const pagination = {
@@ -122,14 +122,12 @@ const preview = {
     {
       id: 1,
       group: 'view',
-      name: lang[langData.cards],
-      active: true,
+      name: viewMode.cards,
     },
     {
       id: 2,
       group: 'view',
-      name: lang[langData.list],
-      active: false,
+      name: viewMode.list,
     },
   ],
   treeInfo: [
