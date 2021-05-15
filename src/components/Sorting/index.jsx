@@ -12,44 +12,58 @@ export default class Sorting extends Component {
   }
 
   componentDidMount = () => {
-    this.resetSorting();
+    this.initSorting();
   };
 
   componentDidUpdate = (_, prevState) => {
     const { sortSections } = this.state;
     const { updateCatalog } = this.props;
-
     if (!prevState?.sortSections) {
       return;
     }
 
-    if (prevState.sortSections != sortSections) {
-      sortSections.map((section) => {
-        section.names.map((_, optIndex) => {
+    sortSections.map((section, secIndex) => {
+      if (
+        prevState.sortSections[secIndex].active != sortSections[secIndex].active
+      ) {
+        section.names.map((name, optIndex) => {
           if (section.active == optIndex) {
-            updateCatalog((catalog) =>
-              this.sortByOptions(catalog, section, optIndex),
+            if (name == lang[langData.notset]) {
+              this.initSorting({
+                fullReset: true,
+                startState: this.state.sortSections.map((item) => {
+                  if (item.id == section.id) {
+                    return { ...item, active: 0 };
+                  }
+                  return { ...item };
+                }),
+              });
+            }
+
+            updateCatalog(
+              !this.fullReset
+                ? (catalog) => this.sortByOptions(catalog, section, optIndex)
+                : false,
+              this.fullReset,
             );
           }
         });
-      });
-    }
+      }
+    });
+    this.fullReset = false;
   };
 
-  resetSorting = () => {
-    const { updateCatalog } = this.props;
-    const sortSections = sorting.map((section) => {
-      if (section.active == 0) {
-        this.sortParams = {};
-        this.sortReverse = 0;
-        updateCatalog((catalog) => this.sortByOptions(catalog, section, 0));
-      }
+  initSorting = ({ fullReset, startState } = {}) => {
+    this.sortParams = {};
+    this.sortReverse = {};
+    this.fullReset = fullReset;
+    const sortSections = (startState ?? sorting).map((section) => {
       return section;
     });
     this.setState({ sortSections });
   };
 
-  sortByOptions = (catalog, cell, optIndex) => {
+  sortByOptions = (catalog, section, optIndex) => {
     const equalToParams = (card, params) => {
       const sortKeys = Object.keys(params);
       const rezult = sortKeys.every((item) => {
@@ -59,6 +73,15 @@ export default class Sorting extends Component {
         return card[item] == params[item];
       });
       return rezult;
+    };
+
+    const isReversSection = () => {
+      const sortReverse = this.sortReverse;
+      const type = sortReverse[section.type];
+      if (type == lang[langData.byincrease]) {
+        return false;
+      }
+      return true;
     };
 
     const sortingByParam = () => {
@@ -79,41 +102,54 @@ export default class Sorting extends Component {
 
     const sortingWithoutParam = () => {
       const sortParams = this.sortParams;
-      const sortReverse = this.sortReverse;
-      let sorting = arr.sort((a, b) => {
+      const rezult = arr.sort((a, b) => {
         if (!equalToParams(a, sortParams)) {
           return 1;
         }
-        if (a[cell.type] < b[cell.type]) {
-          return sortReverse ? 1 : -1;
+        if (a[section.type] < b[section.type]) {
+          return isReversSection() ? 1 : -1;
         }
-        if (a[cell.type] > b[cell.type]) {
-          return sortReverse ? -1 : 1;
+        if (a[section.type] > b[section.type]) {
+          return isReversSection() ? -1 : 1;
         }
         return 1;
       });
-      return sorting;
+      return rezult;
     };
 
     const isParameters = [
       lang[langData.bycategory],
       lang[langData.bytimestamp],
-    ].includes(cell.alias);
+    ].includes(section.alias);
 
     if (isParameters) {
       this.sortParams = {
         ...this.sortParams,
-        [cell.type]: cell.names[optIndex],
+        [section.type]: section.names[optIndex],
       };
     } else {
-      this.sortReverse = optIndex;
+      this.sortReverse = {
+        ...this.sortReverse,
+        [section.type]: section.names[optIndex],
+      };
     }
+    console.log(this.sortParams, this.sortReverse);
     const arr = sortingByParam();
     return sortingWithoutParam();
   };
 
+  resetToggleSections = (section) => {
+    section.active = 0;
+    return section;
+  };
+
   setActiveOption = (secIndex, actOption) => {
-    const sections = this.state.sortSections.map((item) => ({ ...item }));
+    const sections = this.state.sortSections.map((item) => {
+      if (item.toggle) {
+        return { ...this.resetToggleSections(item) };
+      }
+      return { ...item };
+    });
     sections[secIndex].active = actOption;
     this.setState({ sortSections: sections });
   };
@@ -146,7 +182,7 @@ export default class Sorting extends Component {
             <button
               className="btn btn_dark"
               type="button"
-              onClick={this.resetSorting}
+              onClick={() => this.initSorting({ fullReset: true })}
             >
               {lang[langData.discount]}
             </button>

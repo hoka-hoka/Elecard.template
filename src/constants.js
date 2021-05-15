@@ -15,6 +15,9 @@ const lang = [
   'Фотография',
   'Дата',
   'Сбросить',
+  'По возрастанию',
+  'По убыванию',
+  'Не выбрано',
 ];
 
 const langData = {
@@ -34,6 +37,9 @@ const langData = {
   image: 13,
   timestamp: 14,
   discount: 15,
+  byincrease: 16,
+  bydecrease: 17,
+  notset: 18,
 };
 
 const dataURL = 'http://contest.elecard.ru/frontend_data/';
@@ -47,10 +53,11 @@ const viewMode = {
 const sorting = [
   // {
   //   id: 1,
-  // active: 0
-  //   type: 'bycategory',
+  //   active: 0,
+  //   type: 'category',
   //   alias: lang[langData.bycategory],
   //   names: [
+  //     lang[langData.notset],
   //     'animals',
   //     'business',
   //     'food',
@@ -63,23 +70,44 @@ const sorting = [
   // },
   {
     id: 2,
-    active: 0,
+    active: 2,
     type: 'timestamp',
     alias: lang[langData.bytimestamp],
-    names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
+    names: [
+      lang[langData.notset],
+      '2012',
+      '2013',
+      '2014',
+      '2015',
+      '2016',
+      '2017',
+      '2018',
+      '2019',
+    ],
   },
   {
     id: 3,
     active: 0,
     type: 'imgname',
     alias: lang[langData.byimgname],
-    names: ['increase', 'decrease'],
+    names: [
+      lang[langData.notset],
+      lang[langData.byincrease],
+      lang[langData.bydecrease],
+    ],
+    toggle: true,
   },
   // {
   //   id: 4,
-  // active: 0
+  //   active: 0,
   //   type: 'filesize',
-  //   names: ['increase', 'decrease'],
+  //   alias: lang[langData.byfilesize],
+  //   names: [
+  //     lang[langData.notset],
+  //     lang[langData.byincrease],
+  //     lang[langData.bydecrease],
+  //   ],
+  //   toggle: true,
   // },
 ];
 

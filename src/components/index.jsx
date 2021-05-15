@@ -29,7 +29,9 @@ export default class Home extends Component {
 
   componentDidMount = async () => {
     this.catalog = await this.getData('/frontend_data/catalog.json');
+    this.backUp = [...this.catalog];
     this.catalog.splice(-650);
+    this.backUp.splice(-650);
     this.prepareDate();
     this.prepareImgName();
     this.computeCountCards();
@@ -92,9 +94,11 @@ export default class Home extends Component {
     this.setState({ rebuild: false });
   };
 
-  updateCatalog = (handler) => {
-    if (handler && this.catalog) {
+  updateCatalog = (handler, restore = false) => {
+    if (handler && this.catalog && !restore) {
       this.catalog = handler(this.catalog);
+    } else {
+      this.catalog = this.backUp;
     }
     this.setState({ rebuild: true });
   };
