@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import RadioButton from '../../common/RadioButton';
 
 import { lang, langData, sorting } from '../../constants';
@@ -9,18 +9,45 @@ export default class Sorting extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.sortParams = createRef();
-    this.sortReverse = createRef();
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
+    this.resetSorting();
+  };
+
+  componentDidUpdate = (_, prevState) => {
+    const { sortSections } = this.state;
     const { updateCatalog } = this.props;
-    const sortSections = sorting.map((sortSec) => {
-      updateCatalog((catalog) => this.sortByOptions(catalog, sortSec, 0));
-      return sortSec;
+
+    if (!prevState?.sortSections) {
+      return;
+    }
+
+    if (prevState.sortSections != sortSections) {
+      sortSections.map((section) => {
+        section.names.map((_, optIndex) => {
+          if (section.active == optIndex) {
+            updateCatalog((catalog) =>
+              this.sortByOptions(catalog, section, optIndex),
+            );
+          }
+        });
+      });
+    }
+  };
+
+  resetSorting = () => {
+    const { updateCatalog } = this.props;
+    const sortSections = sorting.map((section) => {
+      if (section.active == 0) {
+        this.sortParams = {};
+        this.sortReverse = 0;
+        updateCatalog((catalog) => this.sortByOptions(catalog, section, 0));
+      }
+      return section;
     });
     this.setState({ sortSections });
-  }
+  };
 
   sortByOptions = (catalog, cell, optIndex) => {
     const equalToParams = (card, params) => {
@@ -35,7 +62,7 @@ export default class Sorting extends Component {
     };
 
     const sortingByParam = () => {
-      const sortParams = this.sortParams.current;
+      const sortParams = this.sortParams;
       const rezult = [...catalog];
       let amount = 0;
       rezult.forEach((_, pos) => {
@@ -51,8 +78,8 @@ export default class Sorting extends Component {
     };
 
     const sortingWithoutParam = () => {
-      const sortParams = this.sortParams.current;
-      const sortReverse = this.sortReverse.current;
+      const sortParams = this.sortParams;
+      const sortReverse = this.sortReverse;
       let sorting = arr.sort((a, b) => {
         if (!equalToParams(a, sortParams)) {
           return 1;
@@ -74,27 +101,25 @@ export default class Sorting extends Component {
     ].includes(cell.alias);
 
     if (isParameters) {
-      this.sortParams.current = {
-        ...this.sortParams.current,
+      this.sortParams = {
+        ...this.sortParams,
         [cell.type]: cell.names[optIndex],
       };
     } else {
-      this.sortReverse.current = optIndex;
+      this.sortReverse = optIndex;
     }
-
     const arr = sortingByParam();
-
     return sortingWithoutParam();
   };
 
-  setActiveOption = (secIndex, optIndex) => {
-    this.state.sortSections[secIndex].active = optIndex;
-    this.forceUpdate();
+  setActiveOption = (secIndex, actOption) => {
+    const sections = this.state.sortSections.map((item) => ({ ...item }));
+    sections[secIndex].active = actOption;
+    this.setState({ sortSections: sections });
   };
 
   render() {
     const { sortSections } = this.state;
-    const { updateCatalog } = this.props;
     if (!sortSections) {
       return false;
     }
@@ -111,12 +136,7 @@ export default class Sorting extends Component {
                     btnName={section.type}
                     btnText={opt}
                     active={optIndex == section.active}
-                    callback={() => {
-                      this.setActiveOption(secIndex, optIndex);
-                      updateCatalog((catalog) =>
-                        this.sortByOptions(catalog, section, optIndex),
-                      );
-                    }}
+                    callback={() => this.setActiveOption(secIndex, optIndex)}
                   />
                 </div>
               ))}
@@ -126,7 +146,7 @@ export default class Sorting extends Component {
             <button
               className="btn btn_dark"
               type="button"
-              onClick={this.recoverSort}
+              onClick={this.resetSorting}
             >
               {lang[langData.discount]}
             </button>
