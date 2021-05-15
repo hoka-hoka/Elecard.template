@@ -12,7 +12,19 @@ export default class Sorting extends Component {
   }
 
   componentDidMount = () => {
+    const { updateCatalog } = this.props;
+    this.sortParams = {};
+    this.sortReverse = {};
     this.initSorting();
+
+    const sortSections = sorting.map((section) => {
+      updateCatalog((catalog) =>
+        this.sortByOptions(catalog, section, section.active),
+      );
+      return section;
+    });
+
+    this.setState({ sortSections });
   };
 
   componentDidUpdate = (_, prevState) => {
@@ -39,7 +51,6 @@ export default class Sorting extends Component {
                 }),
               });
             }
-
             updateCatalog(
               !this.fullReset
                 ? (catalog) => this.sortByOptions(catalog, section, optIndex)
@@ -49,21 +60,21 @@ export default class Sorting extends Component {
           }
         });
       }
+      this.fullReset = false;
     });
-    this.fullReset = false;
   };
 
   initSorting = ({ fullReset, startState } = {}) => {
-    this.sortParams = {};
-    this.sortReverse = {};
     this.fullReset = fullReset;
-    const sortSections = (startState ?? sorting).map((section) => {
-      return section;
-    });
+    const sortSections = (startState ?? sorting).map((section) => section);
     this.setState({ sortSections });
   };
 
   sortByOptions = (catalog, section, optIndex) => {
+    if (section.names[optIndex] == lang[langData.notset]) {
+      return catalog;
+    }
+
     const equalToParams = (card, params) => {
       const sortKeys = Object.keys(params);
       const rezult = sortKeys.every((item) => {

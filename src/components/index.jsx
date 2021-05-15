@@ -8,6 +8,8 @@ import Pagination from '../common/Pagination';
 import Preloader from '../common/Preloader';
 import Sprite from '../common/Sprite';
 
+import { pagination } from '../constants';
+
 import '../scss/main.scss';
 import './Home.scss';
 
@@ -19,11 +21,7 @@ export default class Home extends Component {
       rebuild: false,
       del: {},
       notice: {},
-      pagination: {
-        limit: 10,
-        neighbours: 2,
-        current: 1,
-      },
+      pagination: { ...pagination },
     };
   }
 

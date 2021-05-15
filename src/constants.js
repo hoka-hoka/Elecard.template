@@ -70,7 +70,7 @@ const sorting = [
   },
   {
     id: 2,
-    active: 2,
+    active: 3,
     type: 'timestamp',
     alias: lang[langData.bytimestamp],
     names: [
@@ -85,31 +85,37 @@ const sorting = [
       '2019',
     ],
   },
-  {
-    id: 3,
-    active: 0,
-    type: 'imgname',
-    alias: lang[langData.byimgname],
-    names: [
-      lang[langData.notset],
-      lang[langData.byincrease],
-      lang[langData.bydecrease],
-    ],
-    toggle: true,
-  },
-  {
-    id: 4,
-    active: 0,
-    type: 'filesize',
-    alias: lang[langData.byfilesize],
-    names: [
-      lang[langData.notset],
-      lang[langData.byincrease],
-      lang[langData.bydecrease],
-    ],
-    toggle: true,
-  },
+  // {
+  //   id: 3,
+  //   active: 0,
+  //   type: 'imgname',
+  //   alias: lang[langData.byimgname],
+  //   names: [
+  //     lang[langData.notset],
+  //     lang[langData.byincrease],
+  //     lang[langData.bydecrease],
+  //   ],
+  //   toggle: true,
+  // },
+  // {
+  //   id: 4,
+  //   active: 0,
+  //   type: 'filesize',
+  //   alias: lang[langData.byfilesize],
+  //   names: [
+  //     lang[langData.notset],
+  //     lang[langData.byincrease],
+  //     lang[langData.bydecrease],
+  //   ],
+  //   toggle: true,
+  // },
 ];
+
+const pagination = {
+  limit: 10,
+  neighbours: 2,
+  current: 1,
+};
 
 const preview = {
   radioBtns: [
@@ -146,4 +152,4 @@ const preview = {
   ],
 };
 
-export { preview, sorting, lang, langData, viewMode, dataURL };
+export { preview, sorting, pagination, lang, langData, viewMode, dataURL };
