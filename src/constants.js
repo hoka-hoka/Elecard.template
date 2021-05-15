@@ -14,6 +14,7 @@ const lang = [
   'Размер',
   'Фотография',
   'Дата',
+  'Сбросить',
 ];
 
 const langData = {
@@ -32,6 +33,7 @@ const langData = {
   filesize: 12,
   image: 13,
   timestamp: 14,
+  discount: 15,
 };
 
 const dataURL = 'http://contest.elecard.ru/frontend_data/';
@@ -45,6 +47,7 @@ const viewMode = {
 const sorting = [
   // {
   //   id: 1,
+  // active: 0
   //   type: 'bycategory',
   //   alias: lang[langData.bycategory],
   //   names: [
@@ -60,18 +63,21 @@ const sorting = [
   // },
   {
     id: 2,
+    active: 0,
     type: 'timestamp',
     alias: lang[langData.bytimestamp],
     names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
   },
   {
     id: 3,
+    active: 0,
     type: 'imgname',
     alias: lang[langData.byimgname],
     names: ['increase', 'decrease'],
   },
   // {
   //   id: 4,
+  // active: 0
   //   type: 'filesize',
   //   names: ['increase', 'decrease'],
   // },

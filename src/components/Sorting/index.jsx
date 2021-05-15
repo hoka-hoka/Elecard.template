@@ -15,12 +15,14 @@ export default class Sorting extends Component {
 
   componentDidMount() {
     const { updateCatalog } = this.props;
-    sorting.map((item) =>
-      updateCatalog((catalog) => this.sortByCategory(catalog, item, 0)),
-    );
+    const sortSections = sorting.map((sortSec) => {
+      updateCatalog((catalog) => this.sortByOptions(catalog, sortSec, 0));
+      return sortSec;
+    });
+    this.setState({ sortSections });
   }
 
-  sortByCategory = (catalog, cell, optIndex) => {
+  sortByOptions = (catalog, cell, optIndex) => {
     const equalToParams = (card, params) => {
       const sortKeys = Object.keys(params);
       const rezult = sortKeys.every((item) => {
@@ -50,25 +52,19 @@ export default class Sorting extends Component {
 
     const sortingWithoutParam = () => {
       const sortParams = this.sortParams.current;
-      let sorting = catalog.sort((a, b) => {
+      const sortReverse = this.sortReverse.current;
+      let sorting = arr.sort((a, b) => {
         if (!equalToParams(a, sortParams)) {
-          return 0;
-        }
-        if (a[cell.type] < b[cell.type]) {
-          return -1;
-        }
-        if (a[cell.type] > b[cell.type]) {
-          console.log(a, b);
           return 1;
         }
-        return 0;
+        if (a[cell.type] < b[cell.type]) {
+          return sortReverse ? 1 : -1;
+        }
+        if (a[cell.type] > b[cell.type]) {
+          return sortReverse ? -1 : 1;
+        }
+        return 1;
       });
-
-      const sortReverse = this.sortReverse.current;
-      if (Number.isInteger(sortReverse) && sortReverse != optIndex) {
-        sorting = sorting.reverse();
-      }
-      this.sortReverse.current = optIndex;
       return sorting;
     };
 
@@ -76,38 +72,51 @@ export default class Sorting extends Component {
       lang[langData.bycategory],
       lang[langData.bytimestamp],
     ].includes(cell.alias);
+
     if (isParameters) {
       this.sortParams.current = {
         ...this.sortParams.current,
         [cell.type]: cell.names[optIndex],
       };
-      return sortingByParam();
+    } else {
+      this.sortReverse.current = optIndex;
     }
+
+    const arr = sortingByParam();
+
     return sortingWithoutParam();
   };
 
-  recoverSort = () => {};
+  setActiveOption = (secIndex, optIndex) => {
+    this.state.sortSections[secIndex].active = optIndex;
+    this.forceUpdate();
+  };
 
   render() {
+    const { sortSections } = this.state;
     const { updateCatalog } = this.props;
+    if (!sortSections) {
+      return false;
+    }
     return (
       <div className="sorting">
         <div className="sorting__cont">
-          {sorting.map((cell) => (
-            <div className={`sorting__${cell.type}`} key={cell.id}>
-              <div className="sorting__title">{lang[langData[cell.type]]}</div>
-              {cell.names.map((opt, optIndex) => (
+          {sortSections.map((section, secIndex) => (
+            <div className={`sorting__${section.type}`} key={section.id}>
+              <div className="sorting__title">{section.alias}</div>
+              {section.names.map((opt, optIndex) => (
                 <div className="sorting__item" key={optIndex}>
                   <RadioButton
-                    idFor={`${cell.type}-${optIndex}`}
-                    btnName={cell.type}
+                    idFor={`${section.type}-${optIndex}`}
+                    btnName={section.type}
                     btnText={opt}
-                    active={!optIndex}
-                    callback={() =>
+                    active={optIndex == section.active}
+                    callback={() => {
+                      this.setActiveOption(secIndex, optIndex);
                       updateCatalog((catalog) =>
-                        this.sortByCategory(catalog, cell, optIndex),
-                      )
-                    }
+                        this.sortByOptions(catalog, section, optIndex),
+                      );
+                    }}
                   />
                 </div>
               ))}
@@ -119,7 +128,7 @@ export default class Sorting extends Component {
               type="button"
               onClick={this.recoverSort}
             >
-              {lang[langData.recover]}
+              {lang[langData.discount]}
             </button>
           </div>
         </div>

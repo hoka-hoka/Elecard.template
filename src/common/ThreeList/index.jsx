@@ -37,15 +37,6 @@ export default class ThreeList extends Component {
         };
       });
     };
-    // console.log(
-    //   listFormatting([
-    //     [
-    //       { imgname: 'a' },
-    //       [{ imgname: 'b' }, { imgname: 'c' }],
-    //       { imgname: 'd' },
-    //     ],
-    //   ]),
-    // );
     this.setState({ listMap: listFormatting([listMap]) });
   };
 
@@ -55,7 +46,12 @@ export default class ThreeList extends Component {
     const prepareInfo = (branch, info) => {
       const d = branch.data[info.type];
       if (info.name == lang[langData.timestamp]) {
-        return `${d.hour}:${d.minutes}:${d.seconds} ${d.year}`;
+        return d.toLocaleDateString('ru-RU', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
       }
       if (info.name == lang[langData.image]) {
         return (

@@ -7,6 +7,13 @@ export default class RadioButton extends Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    const { active } = this.props;
+    if (active) {
+      this.setState({ active });
+    }
+  };
+
   handlerChange = () => {
     const { callback } = this.props;
     if (callback) {
@@ -24,7 +31,8 @@ export default class RadioButton extends Component {
           name={btnName}
           type="radio"
           onChange={this.handlerChange}
-          defaultChecked={active}
+          // defaultChecked={active}
+          checked={active}
         />
         <label className="radio-btn__label" htmlFor={idFor}>
           {btnText}
