@@ -29,6 +29,7 @@ export default class Home extends Component {
 
   componentDidMount = async () => {
     this.catalog = await this.getData('/frontend_data/catalog.json');
+    this.catalog.splice(-650);
     this.prepareDate();
     this.prepareImgName();
     this.computeCountCards();
@@ -59,12 +60,7 @@ export default class Home extends Component {
 
   convertTimestamp = (time) => {
     const date = new Date(time);
-    const rezult = {
-      year: date.getFullYear(),
-      hour: date.getHours(),
-      minutes: `0${date.getMinutes()}`.substr(-2),
-      seconds: `0${date.getSeconds()}`.substr(-2),
-    };
+    const rezult = date;
     return rezult;
   };
 

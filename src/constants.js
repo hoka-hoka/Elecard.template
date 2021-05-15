@@ -43,33 +43,33 @@ const viewMode = {
 };
 
 const sorting = [
-  {
-    id: 1,
-    type: 'category',
-    alias: lang[langData.bycategory],
-    names: [
-      'animals',
-      'business',
-      'food',
-      'health',
-      'places',
-      'science',
-      'vehicle',
-      'winter',
-    ],
-  },
+  // {
+  //   id: 1,
+  //   type: 'bycategory',
+  //   alias: lang[langData.bycategory],
+  //   names: [
+  //     'animals',
+  //     'business',
+  //     'food',
+  //     'health',
+  //     'places',
+  //     'science',
+  //     'vehicle',
+  //     'winter',
+  //   ],
+  // },
   {
     id: 2,
     type: 'timestamp',
     alias: lang[langData.bytimestamp],
     names: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'],
   },
-  // {
-  //   id: 3,
-  //   type: 'imgname',
-  //   alias: lang[langData.byimgname],
-  //   names: ['increase', 'decrease'],
-  // },
+  {
+    id: 3,
+    type: 'imgname',
+    alias: lang[langData.byimgname],
+    names: ['increase', 'decrease'],
+  },
   // {
   //   id: 4,
   //   type: 'filesize',

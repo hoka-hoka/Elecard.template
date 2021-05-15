@@ -10,6 +10,7 @@ export default class Sorting extends Component {
     super(props);
     this.state = {};
     this.sortParams = createRef();
+    this.sortReverse = createRef();
   }
 
   componentDidMount() {
@@ -20,33 +21,24 @@ export default class Sorting extends Component {
   }
 
   sortByCategory = (catalog, cell, optIndex) => {
-    this.sortParams.current = {
-      ...this.sortParams.current,
-      [cell.type]: cell.names[optIndex],
-    };
-    const sortParams = this.sortParams.current;
-
-    const equalToParams = (elem) => {
-      const sortKeys = Object.keys(sortParams);
-      const rezult = sortKeys.every((key) => {
-        switch (key) {
-          case 'timestamp':
-            return elem[key].year == sortParams[key];
-          case 'imgname':
-            return true;
-          default:
-            return elem[key] == sortParams[key];
+    const equalToParams = (card, params) => {
+      const sortKeys = Object.keys(params);
+      const rezult = sortKeys.every((item) => {
+        if (item == 'timestamp') {
+          return card.timestamp.getFullYear() == params[item];
         }
+        return card[item] == params[item];
       });
       return rezult;
     };
 
     const sortingByParam = () => {
+      const sortParams = this.sortParams.current;
       const rezult = [...catalog];
       let amount = 0;
       rezult.forEach((_, pos) => {
         for (let i = pos; i < pos + 1; ++i) {
-          if (equalToParams(rezult[i])) {
+          if (equalToParams(rezult[i], sortParams)) {
             const pullOut = rezult.splice(i, 1)[0];
             rezult.splice(amount, 0, pullOut);
             amount += 1;
@@ -57,27 +49,27 @@ export default class Sorting extends Component {
     };
 
     const sortingWithoutParam = () => {
-      // const ae = equalToParams({
-      //   category: 'animals',
-      //   timestamp: { hour: 12, minutes: '31', seconds: '09', year: 2012 },
-      //   imgname: 'decrease',
-      // });
-      const rezult = catalog.sort((a, b) => {
-        // if (!equalToParams(a)) {
-        //   return 0;
-        // }
+      const sortParams = this.sortParams.current;
+      let sorting = catalog.sort((a, b) => {
+        if (!equalToParams(a, sortParams)) {
+          return 0;
+        }
         if (a[cell.type] < b[cell.type]) {
           return -1;
         }
         if (a[cell.type] > b[cell.type]) {
+          console.log(a, b);
           return 1;
         }
         return 0;
       });
-      if (optIndex) {
-        return rezult.reverse();
+
+      const sortReverse = this.sortReverse.current;
+      if (Number.isInteger(sortReverse) && sortReverse != optIndex) {
+        sorting = sorting.reverse();
       }
-      return rezult;
+      this.sortReverse.current = optIndex;
+      return sorting;
     };
 
     const isParameters = [
@@ -85,6 +77,10 @@ export default class Sorting extends Component {
       lang[langData.bytimestamp],
     ].includes(cell.alias);
     if (isParameters) {
+      this.sortParams.current = {
+        ...this.sortParams.current,
+        [cell.type]: cell.names[optIndex],
+      };
       return sortingByParam();
     }
     return sortingWithoutParam();
@@ -106,7 +102,7 @@ export default class Sorting extends Component {
                     idFor={`${cell.type}-${optIndex}`}
                     btnName={cell.type}
                     btnText={opt}
-                    active={optIndex == 1}
+                    active={!optIndex}
                     callback={() =>
                       updateCatalog((catalog) =>
                         this.sortByCategory(catalog, cell, optIndex),
