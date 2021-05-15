@@ -51,23 +51,23 @@ const viewMode = {
 };
 
 const sorting = [
-  // {
-  //   id: 1,
-  //   active: 0,
-  //   type: 'category',
-  //   alias: lang[langData.bycategory],
-  //   names: [
-  //     lang[langData.notset],
-  //     'animals',
-  //     'business',
-  //     'food',
-  //     'health',
-  //     'places',
-  //     'science',
-  //     'vehicle',
-  //     'winter',
-  //   ],
-  // },
+  {
+    id: 1,
+    active: 0,
+    type: 'category',
+    alias: lang[langData.bycategory],
+    names: [
+      lang[langData.notset],
+      'animals',
+      'business',
+      'food',
+      'health',
+      'places',
+      'science',
+      'vehicle',
+      'winter',
+    ],
+  },
   {
     id: 2,
     active: 2,
@@ -97,18 +97,18 @@ const sorting = [
     ],
     toggle: true,
   },
-  // {
-  //   id: 4,
-  //   active: 0,
-  //   type: 'filesize',
-  //   alias: lang[langData.byfilesize],
-  //   names: [
-  //     lang[langData.notset],
-  //     lang[langData.byincrease],
-  //     lang[langData.bydecrease],
-  //   ],
-  //   toggle: true,
-  // },
+  {
+    id: 4,
+    active: 0,
+    type: 'filesize',
+    alias: lang[langData.byfilesize],
+    names: [
+      lang[langData.notset],
+      lang[langData.byincrease],
+      lang[langData.bydecrease],
+    ],
+    toggle: true,
+  },
 ];
 
 const preview = {
