@@ -1,22 +1,27 @@
 .thumbnail {
-  :root {
-    --scale--ratio: 1;
-    --translate--ratio: 0;
-  }
   &:checked > .thumbnail__img {
     height: 200px;
   }
 
   &__field {
-    &:checked ~ .thumbnail__lab > .thumbnail__img {
+    &:checked ~ .thumbnail__lab {
       position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
       z-index: 1;
+      background-color: rgb(14, 14, 14);
+    }
+
+    &:checked ~ .thumbnail__lab > .thumbnail__img {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
       margin: auto;
-      transform: scale(2);
     }
 
     &_hidden {
@@ -40,9 +45,6 @@
     width: 25%;
     max-width: 25%;
     object-fit: cover;
-    // transform: scale(var(--scale--ratio));
-
-    // translate(var(--translate--ratio))
     transform: scale(1);
     transition: transform 1s;
   }

@@ -43,21 +43,21 @@ const viewMode = {
 };
 
 const sorting = [
-  // {
-  //   id: 1,
-  //   type: 'category',
-  //   alias: lang[langData.bycategory],
-  //   names: [
-  //     'animals',
-  //     'business',
-  //     'food',
-  //     'health',
-  //     'places',
-  //     'science',
-  //     'vehicle',
-  //     'winter',
-  //   ],
-  // },
+  {
+    id: 1,
+    type: 'category',
+    alias: lang[langData.bycategory],
+    names: [
+      'animals',
+      'business',
+      'food',
+      'health',
+      'places',
+      'science',
+      'vehicle',
+      'winter',
+    ],
+  },
   {
     id: 2,
     type: 'timestamp',

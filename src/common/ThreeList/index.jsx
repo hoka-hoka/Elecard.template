@@ -11,9 +11,12 @@ export default class ThreeList extends Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.prepareListMap();
-  }
+  componentDidUpdate = (prevProps, prevState) => {
+    const { listMap } = this.props;
+    if (prevProps.listMap != listMap) {
+      this.prepareListMap();
+    }
+  };
 
   prepareListMap = () => {
     const { listMap } = this.props;
@@ -94,19 +97,11 @@ export default class ThreeList extends Component {
         );
       });
     };
-    // console.log(addBranch(listMap));
     const rezult = addBranch(listMap);
     return rezult;
   };
 
   render() {
-    return (
-      <ul className="three-list">
-        {/* <div className="three-list__cell">
-          <CheckboxTree text="Root" idFor="tree" />
-        </div> */}
-        {this.createTree()}
-      </ul>
-    );
+    return <ul className="three-list">{this.createTree()}</ul>;
   }
 }
