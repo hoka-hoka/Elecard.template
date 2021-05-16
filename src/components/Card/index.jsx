@@ -11,10 +11,7 @@ export default class Card extends Component {
 
   prepareImgPath = () => {
     const { image } = this.props;
-    if (process.env.NODE_ENV !== 'production') {
-      return `http://contest.elecard.ru/frontend_data/${image}`;
-    }
-    return `${document.location.origin}/frontend_data/${image}`;
+    return `http://contest.elecard.ru/frontend_data/${image}`;
   };
 
   render() {
