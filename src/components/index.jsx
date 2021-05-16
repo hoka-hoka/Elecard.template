@@ -28,8 +28,6 @@ export default class Home extends Component {
   componentDidMount = async () => {
     this.catalog = await this.getData('/frontend_data/catalog.json');
     this.backUp = [...this.catalog];
-    this.catalog.splice(-650);
-    this.backUp.splice(-650);
     this.prepareDate();
     this.prepareImgName();
     this.computeCountCards();

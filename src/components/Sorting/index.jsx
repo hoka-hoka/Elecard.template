@@ -144,7 +144,6 @@ export default class Sorting extends Component {
         [section.type]: section.names[optIndex],
       };
     }
-    console.log(this.sortParams, this.sortReverse);
     const arr = sortingByParam();
     return sortingWithoutParam();
   };

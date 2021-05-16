@@ -70,7 +70,7 @@ const sorting = [
   },
   {
     id: 2,
-    active: 3,
+    active: 0,
     type: 'timestamp',
     alias: lang[langData.bytimestamp],
     names: [
