@@ -1,7 +1,5 @@
 task
 
-[Демо](https://hoka-hoka.github.io/Elecard.template/ 'Необязательная подсказка')
-
 ### Установка
 
 Клонирование проекта
